@@ -5,64 +5,41 @@ export const calculatorSlice = createSlice({
   initialState: {
     lastValue: 0,
     currentValue: 0,
-    operation: {
-      func: null,
-      symbol: "",
-    },
+    operation: ""
   },
   reducers: {
     setOperation: (state, action) => {
-      state.operation.func = action.payload;
+      console.log(action.payload);
+      state.operation = action.payload;
       state.lastValue = state.currentValue;
       state.currentValue = 0;
-      switch (action.payload) {
-        case increment:
-          state.operation.symbol = "+";
-          break;
-        case decrement:
-          state.operation.symbol = "-";
-          break;
-        case multiplication:
-          state.operation.symbol = "*";
-          break;
-        case division:
-          state.operation.symbol = "/";
-          break;
-        case intDiv:
-          state.operation.symbol = "//";
-          break;
-        case modulo:
-          state.operation.symbol = "%";
-          break;
-        default:
-          state.operation.symbol = "";
-          break;
-      }
     },
     invokeOperation: (state) => {
-      state.operation.func(state);
+      switch (state.operation) {
+        case "+":
+          state.lastValue += state.currentValue;
+          break;
+        case "-":
+          state.lastValue -= state.currentValue;
+          break;
+        case "*":
+          state.lastValue *= state.currentValue;
+          break;
+        case "/":
+          state.lastValue /= state.currentValue;
+          break;
+        case "//":
+          state.lastValue = Math.floor(state.lastValue / state.currentValue);
+          break;
+        case "%":
+          state.lastValue %= state.currentValue;
+          break;
+        default:
+          break;
+      }
       state.currentValue = state.lastValue;
       state.lastValue = 0;
-      state.operation.func = null;
-      state.operation.symbol = "";
-    },
-    increment: (state) => {
-      state.lastValue += state.currentValue;
-    },
-    decrement: (state) => {
-      state.lastValue -= state.currentValue;
-    },
-    multiplication: (state) => {
-      state.lastValue *= state.currentValue;
-    },
-    division: (state) => {
-      state.lastValue /= state.currentValue;
-    },
-    intDiv: (state) => {
-      state.lastValue = Math.floor(state.lastValue / state.currentValue);
-    },
-    modulo: (state) => {
-      state.lastValue %= state.currentValue;
+      state.operation = "";
     },
     addDigit: (state, action) => {
       state.currentValue = state.currentValue * 10 + action.payload;
@@ -76,8 +53,7 @@ export const calculatorSlice = createSlice({
     hardReset: (state) => {
       state.currentValue = 0;
       state.lastValue = 0;
-      state.operation.func = null;
-      state.operation.symbol = "";
+      state.operation = "";
     },
   },
 });
@@ -85,12 +61,6 @@ export const calculatorSlice = createSlice({
 export const {
   setOperation,
   invokeOperation,
-  increment,
-  decrement,
-  multiplication,
-  division,
-  intDiv,
-  modulo,
   addDigit,
   deleteLastDigit,
   softReset,

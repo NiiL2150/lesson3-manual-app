@@ -2,12 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setOperation,
   invokeOperation,
-  increment,
-  decrement,
-  multiplication,
-  division,
-  intDiv,
-  modulo,
   addDigit,
   deleteLastDigit,
   softReset,
@@ -20,16 +14,14 @@ export default function CalculatorPage() {
 
   return (
     <div>
-      {calculator.operation.symbol === "" ? (
+      {calculator.operation === "" ? (
         <div>
-          <button onClick={() => dispatch(setOperation(increment))}>+</button>
-          <button onClick={() => dispatch(setOperation(decrement))}>-</button>
-          <button onClick={() => dispatch(setOperation(multiplication))}>
-            *
-          </button>
-          <button onClick={() => dispatch(setOperation(division))}>/</button>
-          <button onClick={() => dispatch(setOperation(intDiv))}>//</button>
-          <button onClick={() => dispatch(setOperation(modulo))}>%</button>
+          <button onClick={() => dispatch(setOperation("+"))}>+</button>
+          <button onClick={() => dispatch(setOperation("-"))}>-</button>
+          <button onClick={() => dispatch(setOperation("*"))}>*</button>
+          <button onClick={() => dispatch(setOperation("/"))}>/</button>
+          <button onClick={() => dispatch(setOperation("//"))}>//</button>
+          <button onClick={() => dispatch(setOperation("%"))}>%</button>
         </div>
       ) : (
         <div>

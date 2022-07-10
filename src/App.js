@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div>
-      {calculator.operation.symbol !== "" ? <p>{calculator.lastValue} {calculator.operation.symbol} {calculator.currentValue}</p> : <p>{calculator.currentValue}</p>}
+      {calculator.operation !== "" ? <p>{calculator.lastValue} {calculator.operation} {calculator.currentValue}</p> : <p>{calculator.currentValue}</p>}
       <CalculatorPage/>
     </div>
   );
