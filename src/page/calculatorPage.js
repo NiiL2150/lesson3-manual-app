@@ -6,6 +6,8 @@ import {
   deleteLastDigit,
   softReset,
   hardReset,
+  toNegativeNumber,
+  addDecimalPoint
 } from "../store/calculatorSlice";
 
 export default function CalculatorPage() {
@@ -30,6 +32,8 @@ export default function CalculatorPage() {
         </div>
       )}
       <button onClick={() => dispatch(softReset())}>CE</button>
+      <button onClick={() => dispatch(toNegativeNumber())}>+/-</button>
+      <button onClick={() => dispatch(addDecimalPoint())}>.</button>
 
       <br />
 

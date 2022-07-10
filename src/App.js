@@ -5,9 +5,16 @@ function App() {
   const calculator = useSelector((state) => state.calculator);
 
   return (
-    <div>
-      {calculator.operation !== "" ? <p>{calculator.lastValue} {calculator.operation} {calculator.currentValue}</p> : <p>{calculator.currentValue}</p>}
-      <CalculatorPage/>
+    <div data-testid="calcOutput">
+      {calculator.operation !== "" ? (
+        <p>
+          {calculator.lastValue} {calculator.operation}{" "}
+          {calculator.currentValue}
+        </p>
+      ) : (
+        <p>{calculator.currentValue}</p>
+      )}
+      <CalculatorPage />
     </div>
   );
 }

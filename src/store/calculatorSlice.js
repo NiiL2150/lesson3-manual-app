@@ -5,14 +5,15 @@ export const calculatorSlice = createSlice({
   initialState: {
     lastValue: 0,
     currentValue: 0,
-    operation: ""
+    operation: "",
+    isDecimal: false,
   },
   reducers: {
     setOperation: (state, action) => {
-      console.log(action.payload);
       state.operation = action.payload;
-      state.lastValue = state.currentValue;
+      state.lastValue = +state.currentValue;
       state.currentValue = 0;
+      state.isDecimal = false;
     },
     invokeOperation: (state) => {
       switch (state.operation) {
@@ -42,18 +43,52 @@ export const calculatorSlice = createSlice({
       state.operation = "";
     },
     addDigit: (state, action) => {
-      state.currentValue = state.currentValue * 10 + action.payload;
+      if (!state.isDecimal) {
+        if (state.currentValue < 0) {
+          state.currentValue = state.currentValue * 10 - action.payload;
+        } else {
+          state.currentValue = state.currentValue * 10 + action.payload;
+        }
+      } else {
+        state.currentValue += action.payload.toString();
+      }
     },
     deleteLastDigit: (state) => {
-      state.currentValue = Math.floor(state.currentValue / 10);
+      if (!state.isDecimal) {
+        state.currentValue = Math.floor(state.currentValue / 10);
+      } else {
+        if (state.currentValue.toString().length > 1) {
+          if (
+            state.currentValue.toString()[
+              state.currentValue.toString().length - 1
+            ] === "."
+          ) {
+            state.isDecimal = false;
+          }
+          state.currentValue = state.currentValue.toString().slice(0, -1);
+        } else {
+          state.currentValue = 0;
+        }
+      }
     },
     softReset: (state) => {
       state.currentValue = 0;
+      state.isDecimal = false;
     },
     hardReset: (state) => {
       state.currentValue = 0;
       state.lastValue = 0;
       state.operation = "";
+      state.isDecimal = false;
+    },
+    toNegativeNumber: (state) => {
+      state.currentValue = -state.currentValue;
+    },
+    addDecimalPoint: (state) => {
+      if (!state.isDecimal) {
+        state.currentValue += ".";
+        state.isDecimal = true;
+      }
     },
   },
 });
@@ -65,5 +100,7 @@ export const {
   deleteLastDigit,
   softReset,
   hardReset,
+  toNegativeNumber,
+  addDecimalPoint,
 } = calculatorSlice.actions;
 export default calculatorSlice.reducer;
